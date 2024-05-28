@@ -39,6 +39,11 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
+        #formEdit {
+            display: none;
+            /* Esconde o formulário */
+        }
     </style>
 </head>
 
@@ -46,6 +51,7 @@
 
     <script>
         function preencherFormularioEdicao(id, nome, descricao) {
+            document.getElementById('formEdit').style.display = 'block';
             // Corrigindo os IDs aqui para corresponder aos do formulário
             document.getElementById('idEdit').value = id;
             document.getElementById('nomeEdit').value = nome;
@@ -117,7 +123,7 @@
 
             $sql = "UPDATE tarefas SET nome='$nome', descricao='$descricao' WHERE id=$id";
             if ($conn->query($sql) === TRUE) {
-                echo "Tarefa atualizada com sucesso";
+                
             } else {
                 echo "Erro ao atualizar a tarefa: " . $conn->error;
             }
@@ -132,7 +138,7 @@
                 $descricao = $_POST["descricao"];
                 $sql = "INSERT INTO tarefas (nome, descricao) VALUES ('$nome', '$descricao')";
                 if ($conn->query($sql) === TRUE) {
-                    echo "Nova tarefa criada com sucesso";
+                    
                 } else {
                     echo "Erro: " . $sql . "<br>" . $conn->error;
                 }
@@ -150,7 +156,7 @@
                 $id = $_POST["id"];
                 $sql = "DELETE FROM tarefas WHERE id=$id";
                 if ($conn->query($sql) === TRUE) {
-                    echo "Tarefa deletada com sucesso";
+                    
                 } else {
                     echo "Erro ao deletar a tarefa: " . $conn->error;
                 }
@@ -171,10 +177,9 @@
             </form>
         
          
-            <form action="" method="post">
+            <form id="formEdit" action="" method="post">
     <h2>Atualizar Tarefa</h2>
     <label for="idEdit">ID:</label><br>
-    // Corrigindo os IDs aqui
     <input type="text" id="idEdit" name="idEdit"><br>
     <label for="nomeEdit">Nome:</label><br>
     <input type="text" id="nomeEdit" name="nomeEdit" value=""><br>
