@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $sql = "INSERT INTO usuario (username, password, perfil_id) VALUES ('$username', '$password', '$nivel_acesso')";
     if ($conn->query($sql) === TRUE) {
         echo "Usuário registrado com sucesso!";
-        header("location: index.php");
+        header("location: login.php");
     } else {
         echo "Erro: " . $sql . "<br>" . $conn->error;
     }
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
             </select>
             <input type="submit" name="register" value="Registrar">
         </form>
-        <a href="index.php">Fazer login</a>
+        <a href="login.php">Fazer login</a>
     </div>
 </body>
 
