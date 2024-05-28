@@ -7,8 +7,8 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            /* Alterado de center para flex-start */
+            align-items: center;
+            /* Alterado de flex-start para center */
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
