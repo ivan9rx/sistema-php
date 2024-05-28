@@ -4,7 +4,7 @@ session_start();
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
+    header("location: index.php");
     exit;
 }
 
@@ -135,22 +135,25 @@ $conn->close();
             <input type="text" id="id" name="id"><br>
             <input type="submit" value="Deletar">
         </form>
+        <a href="logout.php">Logout</a>
         ';
         
-    } else if ($nivel_acesso == "Colaborador") {
+    } else if ($nivel_acesso == "Cliente") {
         // Se o usuário for um colaborador, ele pode apenas visualizar as tarefas
         $sql = "SELECT nome, descricao FROM tarefas";
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                echo "Nome: " . $row["nome"]. " - Descrição: " . $row["descricao"]. "<br>";
+                echo "Nome: " . $row["nome"]. " - Descrição: " . $row["descricao"]. "<br> ";
+                
             }
         } else {
-            echo "Nenhuma tarefa encontrada";
+            echo "Nenhuma tarefa encontrada <a href='logout.php'>Logout</a>";
+
         }
     } else {
-        echo "<p>Você não tem permissão para acessar esta página.</p>";
+        echo "<p>Você não tem permissão para acessar esta página.</p> <br> <a href='logout.php'>Logout</a>";
     }
     
     $conn->close();
