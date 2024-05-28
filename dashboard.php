@@ -89,6 +89,31 @@
             exit;
         }
 
+        // Atualização de tarefas
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["idEdit"])) {
+            $id = $_POST["idEdit"];
+            $nome = isset($_POST["nomeEdit"]) && !empty($_POST["nomeEdit"]) ? $_POST["nomeEdit"] : null;
+            $descricao = isset($_POST["descricaoEdit"]) && !empty($_POST["descricaoEdit"]) ? $_POST["descricaoEdit"] : null;
+
+            // Busca a tarefa atual no banco de dados
+            $sql = "SELECT nome, descricao FROM tarefas WHERE id=$id";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                // Se o nome ou a descrição não foram enviados no form, mantém o valor que estava
+                $nome = $nome !== null ? $nome : $row["nome"];
+                $descricao = $descricao !== null ? $descricao : $row["descricao"];
+            }
+
+            $sql = "UPDATE tarefas SET nome='$nome', descricao='$descricao' WHERE id=$id";
+            if ($conn->query($sql) === TRUE) {
+                echo "Tarefa atualizada com sucesso";
+            } else {
+                echo "Erro ao atualizar a tarefa: " . $conn->error;
+            }
+        }
+
+
         // Se o usuário for um administrador, ele pode fazer o CRUD de tarefas
         if ($nivel_acesso == "Administrador") {
 
@@ -107,18 +132,8 @@
 
 
 
-            // Atualização de tarefas
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST["nome"]) && isset($_POST["descricao"])) {
-                $id = $_POST["id"];
-                $nome = $_POST["nome"];
-                $descricao = $_POST["descricao"];
-                $sql = "UPDATE tarefas SET nome='$nome', descricao='$descricao' WHERE id=$id";
-                if ($conn->query($sql) === TRUE) {
-                    echo "Tarefa atualizada com sucesso";
-                } else {
-                    echo "Erro ao atualizar a tarefa: " . $conn->error;
-                }
-            }
+
+
 
             // Deleção de tarefas
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
@@ -150,11 +165,11 @@
             <form action="" method="post">
                 <h2>Atualizar Tarefa</h2>
                 <label for="id">ID:</label><br>
-                <input type="text" id="id" name="id"><br>
+                <input type="text" id="id" name="idEdit"><br>
                 <label for="nome">Nome:</label><br>
-                <input type="text" id="nome" name="nome"><br>
+                <input type="text" id="nome" name="nomeEdit"><br>
                 <label for="descricao">Descrição:</label><br>
-                <input type="text" id="descricao" name="descricao"><br>
+                <input type="text" id="descricao" name="descricaoEdit"><br>
                 <input type="submit" value="Atualizar">
             </form>
         
@@ -173,7 +188,7 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "Tarefa: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
-                    
+
                 }
             } else {
                 echo "Nenhuma tarefa encontrada <br> ";
