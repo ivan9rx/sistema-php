@@ -2,6 +2,12 @@
 // Inicia a sessão
 session_start();
 
+// Verifica se o usuário já está logado, se sim, redireciona para a página do dashboard
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: dashboard.php");
+    exit;
+}
+
 // Verifica se o formulário de registro foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $username = $_POST["reg_username"];

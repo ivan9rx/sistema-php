@@ -149,7 +149,6 @@
 
 
             echo '
-            <a href="logout.php">Logout</a>
             
             <h1>Formulário de Tarefas</h1>
             <form action="" method="post">
@@ -194,6 +193,8 @@
                 echo "Nenhuma tarefa encontrada <br> ";
             }
 
+            echo "<br> <a href='logout.php'>Logout</a>";
+
         } else if ($nivel_acesso == "Cliente") {
             // Se o usuário for um colaborador, ele pode apenas visualizar as tarefas
             $sql = "SELECT nome, descricao FROM tarefas";
@@ -202,12 +203,11 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "Nome: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
-
                 }
             } else {
                 echo "Nenhuma tarefa encontrada";
-
             }
+            echo "<br> <a href='logout.php'>Logout</a>";
         } else {
             echo "<p>Você não tem permissão para acessar esta página.</p> <br> <a href='logout.php'>Logout</a>";
         }
