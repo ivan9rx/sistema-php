@@ -134,6 +134,7 @@
 
 
             echo '
+            <a href="logout.php">Logout</a>
             
             <h1>Formulário de Tarefas</h1>
             <form action="" method="post">
@@ -164,17 +165,18 @@
                 <input type="text" id="id" name="id"><br>
                 <input type="submit" value="Deletar">
             </form>
-            <a href="logout.php">Logout</a>
+            
             ';
             // Leitura de tarefas
             $sql = "SELECT id, nome, descricao FROM tarefas";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "id: " . $row["id"] . " - Nome: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
+                    echo "Tarefa: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
+                    
                 }
             } else {
-                echo "Nenhuma tarefa encontrada";
+                echo "Nenhuma tarefa encontrada <br> ";
             }
 
         } else if ($nivel_acesso == "Cliente") {
@@ -184,11 +186,11 @@
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "Nome: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br> ";
+                    echo "Nome: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
 
                 }
             } else {
-                echo "Nenhuma tarefa encontrada <a href='logout.php'>Logout</a>";
+                echo "Nenhuma tarefa encontrada";
 
             }
         } else {
