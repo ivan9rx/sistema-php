@@ -43,6 +43,16 @@
 </head>
 
 <body>
+
+    <script>
+        function preencherFormularioEdicao(id, nome, descricao) {
+            // Corrigindo os IDs aqui para corresponder aos do formulário
+            document.getElementById('idEdit').value = id;
+            document.getElementById('nomeEdit').value = nome;
+            document.getElementById('descricaoEdit').value = descricao;
+        } 
+    </script>
+
     <?php
     // Inicia a sessão
     session_start();
@@ -162,37 +172,40 @@
         
          
             <form action="" method="post">
-                <h2>Atualizar Tarefa</h2>
-                <label for="id">ID:</label><br>
-                <input type="text" id="id" name="idEdit"><br>
-                <label for="nome">Nome:</label><br>
-                <input type="text" id="nome" name="nomeEdit"><br>
-                <label for="descricao">Descrição:</label><br>
-                <input type="text" id="descricao" name="descricaoEdit"><br>
-                <input type="submit" value="Atualizar">
-            </form>
-        
-            
-            <form action="" method="post">
-                <h2>Deletar Tarefa</h2>
-                <label for="id">ID:</label><br>
-                <input type="text" id="id" name="id"><br>
-                <input type="submit" value="Deletar">
-            </form>
+    <h2>Atualizar Tarefa</h2>
+    <label for="idEdit">ID:</label><br>
+    // Corrigindo os IDs aqui
+    <input type="text" id="idEdit" name="idEdit"><br>
+    <label for="nomeEdit">Nome:</label><br>
+    <input type="text" id="nomeEdit" name="nomeEdit" value=""><br>
+    <label for="descricaoEdit">Descrição:</label><br>
+    <input type="text" id="descricaoEdit" name="descricaoEdit"><br>
+    <input type="submit" value="Atualizar">
+</form>
             
             ';
             // Leitura de tarefas
             $sql = "SELECT id, nome, descricao FROM tarefas";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
+                echo "<table>"; // Iniciar tabela
                 while ($row = $result->fetch_assoc()) {
-                    echo "Tarefa: " . $row["nome"] . " - Descrição: " . $row["descricao"] . "<br>";
-
+                    echo "<tr>";
+                    echo "<td>Id: " . $row["id"] . "</td>";
+                    echo "<td>Tarefa: " . $row["nome"] . "</td>";
+                    echo "<td>Descrição: " . $row["descricao"] . "</td>";
+                    // Adiciona um botão de deletar com o ID da tarefa
+                    echo "<td><form action='' method='post'>";
+                    echo "<input type='hidden' name='id' value='" . $row["id"] . "'>";
+                    echo "<input type='submit' value='Deletar'>";
+                    echo "</form></td>";
+                    echo "</tr>";
+                    echo "<td><button onclick='preencherFormularioEdicao(\"" . $row["id"] . "\", \"" . $row["nome"] . "\", \"" . $row["descricao"] . "\")'>Editar</button></td>";
                 }
+                echo "</table>"; // Fechar tabela
             } else {
                 echo "Nenhuma tarefa encontrada <br> ";
             }
-
             echo "<br> <a href='logout.php'>Logout</a>";
 
         } else if ($nivel_acesso == "Cliente") {
