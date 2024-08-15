@@ -4,7 +4,7 @@ session_start();
 
 // Verifica se o usuário já está logado, se sim, redireciona para a página do dashboard
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: dashboard.php");
+    header("location: index.php");
     exit;
 }
 
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Conecta ao banco de dados
-    $conn = new mysqli("localhost", "root", "", "sistema");
+    $conn = new mysqli("localhost", "root", "", "sistemaphp");
 
     // Verifica a conexão
     if ($conn->connect_error) {
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $_SESSION["loggedin"] = true;
         $_SESSION["username"] = $username;
-        header("location: dashboard.php");
+        header("location: index.php");
     } else {
         $error = "Usuário ou senha incorretos";
     }

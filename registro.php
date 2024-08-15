@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $nivel_acesso = intval($_POST["nivel_acesso"]); // Converte o valor para um número inteiro
 
     // Conecta ao banco de dados
-    $conn = new mysqli("localhost", "root", "", "sistema");
+    $conn = new mysqli("localhost", "root", "", "sistemaphp");
 
     // Verifica a conexão
     if ($conn->connect_error) {

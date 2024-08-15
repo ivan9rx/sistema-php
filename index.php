@@ -56,7 +56,7 @@
             document.getElementById('idEdit').value = id;
             document.getElementById('nomeEdit').value = nome;
             document.getElementById('descricaoEdit').value = descricao;
-        } 
+        }
     </script>
 
     <?php
@@ -70,7 +70,7 @@
     }
 
     // Conecta ao banco de dados
-    $conn = new mysqli("localhost", "root", "", "sistema");
+    $conn = new mysqli("localhost", "root", "", "sistemaphp");
 
     // Verifica a conexão
     if ($conn->connect_error) {
@@ -93,7 +93,7 @@
     ?>
     <div class="form-container">
         <?php
-        $conn = new mysqli("localhost", "root", "", "sistema");
+        $conn = new mysqli("localhost", "root", "", "sistemaphp");
         $sql = "SELECT nivel_acesso FROM perfil WHERE id = (SELECT perfil_id FROM usuario WHERE username = '" . $_SESSION["username"] . "')";
         $result = $conn->query($sql);
 
@@ -123,7 +123,6 @@
 
             $sql = "UPDATE tarefas SET nome='$nome', descricao='$descricao' WHERE id=$id";
             if ($conn->query($sql) === TRUE) {
-                
             } else {
                 echo "Erro ao atualizar a tarefa: " . $conn->error;
             }
@@ -138,7 +137,6 @@
                 $descricao = $_POST["descricao"];
                 $sql = "INSERT INTO tarefas (nome, descricao) VALUES ('$nome', '$descricao')";
                 if ($conn->query($sql) === TRUE) {
-                    
                 } else {
                     echo "Erro: " . $sql . "<br>" . $conn->error;
                 }
@@ -146,17 +144,11 @@
                 exit;
             }
 
-
-
-
-
-
             // Deleção de tarefas
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
                 $id = $_POST["id"];
                 $sql = "DELETE FROM tarefas WHERE id=$id";
                 if ($conn->query($sql) === TRUE) {
-                    
                 } else {
                     echo "Erro ao deletar a tarefa: " . $conn->error;
                 }
@@ -212,7 +204,6 @@
                 echo "Nenhuma tarefa encontrada <br> ";
             }
             echo "<br> <a href='logout.php'>Logout</a>";
-
         } else if ($nivel_acesso == "Cliente") {
             // Se o usuário for um colaborador, ele pode apenas visualizar as tarefas
             $sql = "SELECT nome, descricao FROM tarefas";
